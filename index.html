@@ -774,9 +774,9 @@
     <!-- Zone selector tabs -->
     <div id="fm-tabs" style="display:flex; gap:0.75rem; justify-content:center; margin-bottom:2rem; flex-wrap:wrap;">
       <button class="fm-tab fm-tab-active" data-zone="all" onclick="fmSelectZone('all')">All Zones</button>
-      <button class="fm-tab" data-zone="Z1" onclick="fmSelectZone('Z1')" style="--tc:#2d6a4f; --tbg:#d8f3dc;">Z1 – North</button>
-      <button class="fm-tab" data-zone="Z2" onclick="fmSelectZone('Z2')" style="--tc:#1e40af; --tbg:#dbeafe;">Z2 – Central</button>
-      <button class="fm-tab" data-zone="Z3" onclick="fmSelectZone('Z3')" style="--tc:#92400e; --tbg:#fef3c7;">Z3 – South</button>
+      <button class="fm-tab" data-zone="Z1" onclick="fmSelectZone('Z1')" style="--tc:#2d6a4f; --tbg:#d8f3dc;">Z1 – East</button>
+      <button class="fm-tab" data-zone="Z2" onclick="fmSelectZone('Z2')" style="--tc:#1e40af; --tbg:#dbeafe;">Z2 – Middle</button>
+      <button class="fm-tab" data-zone="Z3" onclick="fmSelectZone('Z3')" style="--tc:#92400e; --tbg:#fef3c7;">Z3 – West</button>
     </div>
 
     <!-- Map grid -->
@@ -973,11 +973,11 @@
 (function() {
   // ── Farm data ─────────────────────────────────────────────────────────────
   var ZONES = [
-    { code:'Z1', name:'North Zone',   color:'#2d6a4f', bg:'#d8f3dc', border:'#74c69d',
+    { code:'Z1', name:'East Zone',   color:'#2d6a4f', bg:'#d8f3dc', border:'#74c69d',
       desc:'30 acres · Canal + borewell irrigation · Alluvial & red loamy soils' },
-    { code:'Z2', name:'Central Zone', color:'#1e40af', bg:'#dbeafe', border:'#93c5fd',
+    { code:'Z2', name:'Middle Zone', color:'#1e40af', bg:'#dbeafe', border:'#93c5fd',
       desc:'30 acres · Borewell primary · Sandy loam & laterite soils' },
-    { code:'Z3', name:'South Zone',   color:'#92400e', bg:'#fef3c7', border:'#fcd34d',
+    { code:'Z3', name:'West Zone',   color:'#92400e', bg:'#fef3c7', border:'#fcd34d',
       desc:'30 acres · Stream + open well · Alluvial & black cotton soils' },
   ]
 
