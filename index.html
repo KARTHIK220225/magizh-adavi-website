@@ -1866,19 +1866,19 @@
       renderSchemes()
     } catch(err) {
       document.getElementById('investContent').innerHTML =
-        '<p style="text-align:center;color:#9ca3af;padding:2rem">Unable to load investment data. Please try again later or contact us on WhatsApp.</p>'
+        '<p style="text-align:center;color:#9ca3af;padding:2rem">Unable to load investment data. Please try again later or contact us on WhatsApp.<br><small style="opacity:.5">' + (err.message || '') + '</small></p>'
     }
   }
 
-  // Load when section scrolls into view (lazy)
-  var investObs = new IntersectionObserver(function(entries) {
-    if (entries[0].isIntersecting) {
-      loadInvest()
-      investObs.disconnect()
-    }
-  }, { threshold: 0.1 })
-  var investEl = document.getElementById('invest')
-  if (investEl) investObs.observe(investEl)
+  // Load on DOMContentLoaded — also handles direct #invest navigation
+  function maybeLoad() {
+    loadInvest()
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', maybeLoad)
+  } else {
+    maybeLoad()
+  }
 })()
 </script>
 
