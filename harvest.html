@@ -450,10 +450,15 @@
     const pill = document.getElementById('cart-pill')
     const label = document.getElementById('cart-pill-label')
     const total = document.getElementById('cart-pill-total')
-    if (cart.length === 0) { pill.style.display = 'none'; return }
+    if (cart.length === 0) {
+      pill.style.display = 'none'
+      document.title = "Today's Fresh Harvest – Magizh Adavi Organic Farm"
+      return
+    }
     pill.style.display = 'flex'
     label.textContent = cart.length + (cart.length === 1 ? ' item' : ' items')
     total.textContent = fmt(cartTotal())
+    document.title = '(' + cart.length + ') Harvest – Magizh Adavi'
   }
 
   // ── Add to cart ───────────────────────────────────────────
@@ -525,26 +530,37 @@
       body.appendChild(cap)
     }
 
-    const stock = document.createElement('div'); stock.className = 'h-card-stock'
-    stock.textContent = p.availableStock + ' ' + p.unit + ' available today'
+    const soldOut = !p.availableStock || p.availableStock <= 0
+    const stock = document.createElement('div')
+    stock.className = 'h-card-stock'
+    stock.textContent = soldOut ? '⚠ Sold out today' : (p.availableStock + ' ' + p.unit + ' available today')
+    if (soldOut) stock.style.color = '#dc2626'
     body.appendChild(stock)
 
     // Qty + add
     const footer = document.createElement('div'); footer.className = 'h-card-footer'
     const row = document.createElement('div'); row.className = 'qty-add-row'
 
-    const qtyWrap = document.createElement('div'); qtyWrap.className = 'qty-wrap'
-    const minus = document.createElement('button'); minus.className = 'qty-btn'; minus.type = 'button'; minus.textContent = '−'
-    const inp = document.createElement('input'); inp.className = 'qty-inp'; inp.type = 'number'; inp.value = '1'; inp.min = '1'; inp.max = String(p.availableStock)
-    const plus = document.createElement('button'); plus.className = 'qty-btn'; plus.type = 'button'; plus.textContent = '+'
-    minus.onclick = () => { if (Number(inp.value) > 1) inp.value = Number(inp.value) - 1 }
-    plus.onclick = () => { if (Number(inp.value) < p.availableStock) inp.value = Number(inp.value) + 1 }
-    qtyWrap.appendChild(minus); qtyWrap.appendChild(inp); qtyWrap.appendChild(plus)
+    if (soldOut) {
+      const soldBtn = document.createElement('button')
+      soldBtn.className = 'add-btn'; soldBtn.type = 'button'; soldBtn.disabled = true
+      soldBtn.textContent = 'Sold out — WhatsApp to pre-order'
+      soldBtn.style.cssText = 'opacity:0.5;cursor:default;background:#6b7280;'
+      row.appendChild(soldBtn)
+    } else {
+      const qtyWrap = document.createElement('div'); qtyWrap.className = 'qty-wrap'
+      const minus = document.createElement('button'); minus.className = 'qty-btn'; minus.type = 'button'; minus.textContent = '−'
+      const inp = document.createElement('input'); inp.className = 'qty-inp'; inp.type = 'number'; inp.value = '1'; inp.min = '1'; inp.max = String(p.availableStock)
+      const plus = document.createElement('button'); plus.className = 'qty-btn'; plus.type = 'button'; plus.textContent = '+'
+      minus.onclick = () => { if (Number(inp.value) > 1) inp.value = Number(inp.value) - 1 }
+      plus.onclick = () => { if (Number(inp.value) < p.availableStock) inp.value = Number(inp.value) + 1 }
+      qtyWrap.appendChild(minus); qtyWrap.appendChild(inp); qtyWrap.appendChild(plus)
 
-    const addBtn = document.createElement('button'); addBtn.className = 'add-btn'; addBtn.type = 'button'; addBtn.textContent = 'Add to Cart'
-    addBtn.onclick = () => addToCart(p, Number(inp.value), addBtn)
+      const addBtn = document.createElement('button'); addBtn.className = 'add-btn'; addBtn.type = 'button'; addBtn.textContent = 'Add to Cart'
+      addBtn.onclick = () => addToCart(p, Number(inp.value), addBtn)
 
-    row.appendChild(qtyWrap); row.appendChild(addBtn)
+      row.appendChild(qtyWrap); row.appendChild(addBtn)
+    }
     footer.appendChild(row); body.appendChild(footer)
     card.appendChild(body)
     return card
@@ -562,7 +578,9 @@
       const res = await fetch(API + '/harvest-feed')
       const data = await res.json()
       document.getElementById('harvest-loading').style.display = 'none'
-      document.getElementById('last-updated').textContent = 'Updated ' + new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })
+      const now = new Date()
+      const timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })
+      document.getElementById('last-updated').textContent = 'Updated at ' + timeStr + ' · next refresh in 5 min'
 
       const media = data.media || []
       const products = data.products || []
@@ -678,6 +696,9 @@
   updateCartPill()
   loadHarvest()
   window.loadHarvest = loadHarvest
+
+  // Auto-refresh every 5 minutes (as advertised in status bar)
+  setInterval(loadHarvest, 5 * 60 * 1000)
 })()
 </script>
 </body>
