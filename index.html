@@ -457,6 +457,7 @@
     <li><a href="#gallery">Gallery</a></li>
     <li><a href="#products">Products</a></li>
     <li><a href="harvest.html" style="color:#52b788; font-weight:700;">🛒 Today's Harvest</a></li>
+    <li><a href="#invest" style="color:#f4a261; font-weight:700;">🌱 Invest</a></li>
     <li><a href="#contact" class="nav-cta">Contact Us</a></li>
   </ul>
   <button class="hamburger" id="hamburger" aria-label="Menu">
@@ -872,6 +873,100 @@
   z-index: 10;
   position: relative;
 }
+
+/* ─── INVEST SECTION ──────────────────────────────────────────────────────── */
+#invest { background: #f4faf6; padding: 5rem 1.5rem; }
+.invest-loading { text-align:center; padding:3rem; color:#6b7280; font-size:0.95rem; }
+.invest-schemes { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.5rem; margin-bottom:2.5rem; }
+.invest-scheme-card {
+  background:#fff; border-radius:16px; border:2px solid #e8f5e9;
+  padding:1.5rem; cursor:pointer; transition:border-color .2s, box-shadow .2s;
+}
+.invest-scheme-card:hover, .invest-scheme-card.selected {
+  border-color:#40916c; box-shadow:0 6px 24px rgba(45,106,79,.15);
+}
+.invest-scheme-card .scheme-badge {
+  display:inline-block; font-size:0.7rem; font-weight:700; text-transform:uppercase;
+  letter-spacing:.06em; padding:.2rem .7rem; border-radius:100px;
+  background:#d8f3dc; color:#1b4332; margin-bottom:.75rem;
+}
+.invest-scheme-card h3 { font-size:1.15rem; color:#1b4332; margin:0 0 .4rem; }
+.invest-scheme-card .scheme-meta { font-size:.85rem; color:#6b7280; margin-bottom:1rem; }
+.invest-kpis { display:grid; grid-template-columns:repeat(3,1fr); gap:.5rem; margin:.75rem 0; }
+.invest-kpi { background:#f0fdf4; border-radius:10px; padding:.5rem; text-align:center; }
+.invest-kpi .val { font-size:1rem; font-weight:800; color:#2d6a4f; }
+.invest-kpi .lbl { font-size:.65rem; color:#9ca3af; margin-top:.1rem; }
+.invest-fill-bar { height:6px; background:#e5e7eb; border-radius:100px; overflow:hidden; margin:.75rem 0 .4rem; }
+.invest-fill-bar-inner { height:100%; background:#40916c; border-radius:100px; transition:width .5s; }
+.invest-fill-label { font-size:.7rem; color:#9ca3af; }
+
+/* Plot picker */
+.plot-picker-wrap { background:#fff; border-radius:16px; border:1px solid #e8f5e9; padding:1.5rem; margin-bottom:2rem; }
+.plot-picker-title { font-size:.9rem; font-weight:700; color:#1b4332; margin-bottom:.5rem; }
+.plot-picker-legend { display:flex; gap:1rem; font-size:.75rem; color:#6b7280; margin-bottom:1rem; flex-wrap:wrap; }
+.plot-picker-legend span { display:flex; align-items:center; gap:.35rem; }
+.plot-picker-legend i { display:inline-block; width:12px; height:12px; border-radius:3px; }
+.plot-grid {
+  display:grid;
+  grid-template-columns: repeat(15, 1fr);
+  gap:3px;
+}
+.plot-dot {
+  aspect-ratio:1;
+  border-radius:3px;
+  cursor:pointer;
+  transition:transform .1s, opacity .1s;
+  border:1px solid rgba(0,0,0,.06);
+  position:relative;
+}
+.plot-dot.available   { background:#4ade80; }
+.plot-dot.taken       { background:#d1d5db; cursor:not-allowed; }
+.plot-dot.sel         { background:#f4a261; border-color:#d97706; transform:scale(1.2); z-index:5; }
+.plot-dot.available:hover:not(.sel) { transform:scale(1.15); background:#22c55e; }
+.plot-dot[title]:hover::after {
+  content: attr(title);
+  position:absolute; bottom:calc(100% + 4px); left:50%; transform:translateX(-50%);
+  background:#1b4332; color:#fff; font-size:10px; padding:2px 6px; border-radius:4px;
+  white-space:nowrap; pointer-events:none; z-index:100;
+}
+.plot-picker-count { font-size:.8rem; color:#6b7280; margin-top:.75rem; }
+.plot-picker-count strong { color:#2d6a4f; }
+
+/* EOI form */
+.invest-form-wrap { background:#fff; border-radius:16px; border:1px solid #e8f5e9; padding:1.5rem; }
+.invest-form-wrap h3 { font-size:1.05rem; font-weight:700; color:#1b4332; margin:0 0 1.25rem; }
+.invest-form { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+@media(max-width:600px) { .invest-form { grid-template-columns:1fr; } .plot-grid { grid-template-columns:repeat(12,1fr); } }
+.invest-form label { font-size:.8rem; font-weight:600; color:#374151; display:block; margin-bottom:.3rem; }
+.invest-form input, .invest-form select {
+  width:100%; padding:.6rem .85rem; border:1.5px solid #e5e7eb; border-radius:10px;
+  font-size:.9rem; color:#111827; background:#fff; outline:none; box-sizing:border-box;
+  transition:border-color .15s;
+}
+.invest-form input:focus, .invest-form select:focus { border-color:#40916c; }
+.invest-form .full { grid-column:1/-1; }
+.invest-form-summary {
+  grid-column:1/-1; background:#1b4332; color:#fff; border-radius:12px;
+  padding:1rem 1.25rem; display:grid; grid-template-columns:repeat(3,1fr); gap:.5rem;
+  text-align:center;
+}
+.invest-form-summary .s-val { font-size:1.05rem; font-weight:800; color:#95d5b2; }
+.invest-form-summary .s-lbl { font-size:.65rem; color:rgba(255,255,255,.5); margin-top:.15rem; }
+.invest-submit-btn {
+  grid-column:1/-1; background:#2d6a4f; color:#fff; border:none; border-radius:12px;
+  padding:.85rem 1.5rem; font-size:.95rem; font-weight:700; cursor:pointer;
+  transition:background .2s; display:flex; align-items:center; justify-content:center; gap:.5rem;
+}
+.invest-submit-btn:hover:not(:disabled) { background:#1b4332; }
+.invest-submit-btn:disabled { opacity:.6; cursor:not-allowed; }
+.invest-error { grid-column:1/-1; color:#ef4444; font-size:.8rem; background:#fef2f2; border-radius:8px; padding:.5rem .75rem; }
+.invest-success {
+  text-align:center; padding:2.5rem 1.5rem; background:#f0fdf4;
+  border-radius:16px; border:1px solid #bbf7d0;
+}
+.invest-success .check { font-size:3rem; margin-bottom:1rem; }
+.invest-success h3 { color:#166534; font-size:1.25rem; margin-bottom:.5rem; }
+.invest-success p { color:#6b7280; font-size:.9rem; }
 </style>
 
 <script>
@@ -1561,6 +1656,251 @@
 })()
 </script>
 
+<!-- ─── INVEST JS ──────────────────────────────────────────── -->
+<script>
+(function() {
+  var API = 'https://app.magizh-adavi.farm/api/public'
+  var state = {
+    schemes: [], plots: [],
+    selectedScheme: null,
+    selectedPlotIds: [],    // UUIDs the investor picked
+    plotCount: 1,
+  }
+
+  function fmt(n) {
+    return '₹' + Number(n).toLocaleString('en-IN')
+  }
+
+  // ── Render scheme cards ─────────────────────────────────────────────────
+  function renderSchemes() {
+    if (!state.schemes.length) {
+      document.getElementById('investContent').innerHTML =
+        '<p style="text-align:center;color:#9ca3af;padding:2rem">No investment schemes open right now. Please check back soon.</p>'
+      return
+    }
+    state.selectedScheme = state.selectedScheme || state.schemes[0]
+    var html = '<div class="invest-schemes">'
+    state.schemes.forEach(function(s) {
+      var isSel = state.selectedScheme && state.selectedScheme.id === s.id
+      var pct = Math.round(((s.plots_committed || 0) / (s.total_plots_available || 180)) * 100)
+      html += '<div class="invest-scheme-card' + (isSel ? ' selected' : '') + '" data-id="' + s.id + '" onclick="selectScheme(\'' + s.id + '\')">'
+      html += '<div class="scheme-badge">' + (s.season || 'Open') + '</div>'
+      html += '<h3>' + s.scheme_name + '</h3>'
+      if (s.description) html += '<div class="scheme-meta">' + s.description.slice(0, 100) + (s.description.length > 100 ? '…' : '') + '</div>'
+      html += '<div class="invest-kpis">'
+      html += '<div class="invest-kpi"><div class="val">' + fmt(s.investment_per_plot) + '</div><div class="lbl">per plot</div></div>'
+      html += '<div class="invest-kpi"><div class="val">' + s.roi_pct + '%</div><div class="lbl">ROI</div></div>'
+      html += '<div class="invest-kpi"><div class="val">' + (s.plots_available || 0) + '</div><div class="lbl">plots left</div></div>'
+      html += '</div>'
+      html += '<div class="invest-fill-bar"><div class="invest-fill-bar-inner" style="width:' + pct + '%"></div></div>'
+      html += '<div class="invest-fill-label">' + pct + '% plots committed · ' + fmt(s.plots_committed * s.investment_per_plot) + ' raised</div>'
+      html += '</div>'
+    })
+    html += '</div>'
+    html += renderPlotPicker()
+    html += renderForm()
+    document.getElementById('investContent').innerHTML = html
+    attachFormListeners()
+  }
+
+  window.selectScheme = function(id) {
+    state.selectedScheme = state.schemes.find(function(s){ return s.id === id }) || state.schemes[0]
+    state.selectedPlotIds = []
+    renderSchemes()
+  }
+
+  // ── Plot picker ─────────────────────────────────────────────────────────
+  function renderPlotPicker() {
+    var available = state.plots.filter(function(p){ return p.available })
+    var taken     = state.plots.filter(function(p){ return !p.available })
+    var html = '<div class="plot-picker-wrap">'
+    html += '<div class="plot-picker-title">🗺️ Choose Your Plots</div>'
+    html += '<div class="plot-picker-legend">'
+    html += '<span><i style="background:#4ade80"></i> Available (' + available.length + ')</span>'
+    html += '<span><i style="background:#d1d5db"></i> Committed (' + taken.length + ')</span>'
+    html += '<span><i style="background:#f4a261"></i> Your selection</span>'
+    html += '</div>'
+    html += '<div class="plot-grid" id="plotGrid">'
+    state.plots.forEach(function(p) {
+      var isSel = state.selectedPlotIds.indexOf(p.id) !== -1
+      var cls = isSel ? 'sel' : (p.available ? 'available' : 'taken')
+      html += '<div class="plot-dot ' + cls + '" title="' + p.plot_code + '" data-pid="' + p.id + '" data-avail="' + p.available + '" onclick="togglePlot(\'' + p.id + '\',this)"></div>'
+    })
+    html += '</div>'
+    html += '<div class="plot-picker-count" id="plotPickCount">'
+    html += '<strong>' + state.selectedPlotIds.length + '</strong> plots selected'
+    html += ' — click plots to pick yours, or just enter a number below'
+    html += '</div>'
+    html += '</div>'
+    return html
+  }
+
+  window.togglePlot = function(id, el) {
+    if (el.dataset.avail !== 'true') return
+    var idx = state.selectedPlotIds.indexOf(id)
+    if (idx === -1) {
+      state.selectedPlotIds.push(id)
+      el.classList.remove('available')
+      el.classList.add('sel')
+    } else {
+      state.selectedPlotIds.splice(idx, 1)
+      el.classList.remove('sel')
+      el.classList.add('available')
+    }
+    // Sync plot count input
+    var pci = document.getElementById('plotCountInput')
+    if (pci) { pci.value = state.selectedPlotIds.length || 1; updateSummary() }
+    var pc = document.getElementById('plotPickCount')
+    if (pc) pc.innerHTML = '<strong>' + state.selectedPlotIds.length + '</strong> plots selected — click plots to pick yours, or just enter a number below'
+  }
+
+  // ── EOI form ────────────────────────────────────────────────────────────
+  function renderForm() {
+    if (!state.selectedScheme) return ''
+    var s = state.selectedScheme
+    var inv = (state.selectedPlotIds.length || 1) * s.investment_per_plot
+    var ret = (state.selectedPlotIds.length || 1) * s.return_per_plot
+    return '<div class="invest-form-wrap" id="investFormWrap">' +
+      '<h3>📝 Express Your Interest</h3>' +
+      '<form class="invest-form" id="investForm" onsubmit="submitEOI(event)">' +
+        '<div><label>Your Name *</label><input type="text" name="full_name" placeholder="e.g. Ramesh Kumar" required /></div>' +
+        '<div><label>Phone / WhatsApp *</label><input type="tel" name="phone" placeholder="+91 98765 43210" required /></div>' +
+        '<div><label>Email (optional)</label><input type="email" name="email" placeholder="you@example.com" /></div>' +
+        '<div><label>How did you hear of us?</label>' +
+          '<select name="referral_source">' +
+            '<option value="">— Select —</option>' +
+            ['WhatsApp','Instagram','Facebook','Friend / Family','Pitch Deck','Website','Other'].map(function(o){ return '<option>' + o + '</option>' }).join('') +
+          '</select>' +
+        '</div>' +
+        '<div><label>Number of Plots *</label>' +
+          '<input type="number" id="plotCountInput" name="plot_count" value="' + Math.max(1, state.selectedPlotIds.length) + '" min="1" max="' + (s.total_plots_available || 180) + '" oninput="updateSummary()" required />' +
+        '</div>' +
+        '<div><label>Notes (optional)</label><input type="text" name="notes" placeholder="Any questions or preferences…" /></div>' +
+        '<div class="invest-form-summary" id="investSummary">' +
+          '<div><div class="s-val">' + fmt(inv) + '</div><div class="s-lbl">You invest</div></div>' +
+          '<div><div class="s-val" style="color:#fcd34d">' + s.roi_pct + '%</div><div class="s-lbl">ROI</div></div>' +
+          '<div><div class="s-val">' + fmt(ret) + '</div><div class="s-lbl">Expected return</div></div>' +
+        '</div>' +
+        '<button class="invest-submit-btn" type="submit" id="eoi-btn">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px"><path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>' +
+          'Send My Interest' +
+        '</button>' +
+      '</form>' +
+    '</div>'
+  }
+
+  window.updateSummary = function() {
+    var s = state.selectedScheme
+    if (!s) return
+    var el = document.getElementById('plotCountInput')
+    var cnt = el ? Math.max(1, parseInt(el.value) || 1) : 1
+    var inv = cnt * s.investment_per_plot
+    var ret = cnt * s.return_per_plot
+    var sumEl = document.getElementById('investSummary')
+    if (sumEl) {
+      sumEl.querySelector('.s-val').textContent = fmt(inv)
+      sumEl.querySelectorAll('.s-val')[2].textContent = fmt(ret)
+    }
+  }
+
+  window.submitEOI = async function(e) {
+    e.preventDefault()
+    var btn = document.getElementById('eoi-btn')
+    btn.disabled = true; btn.textContent = 'Sending…'
+
+    var form  = e.target
+    var errEl = form.querySelector('.invest-error')
+    if (errEl) errEl.remove()
+
+    var plotCnt = parseInt(form.plot_count.value) || 1
+    var body = {
+      full_name         : form.full_name.value.trim(),
+      phone             : form.phone.value.trim(),
+      email             : form.email.value.trim() || null,
+      scheme_id         : state.selectedScheme.id,
+      plot_count        : plotCnt,
+      preferred_plot_ids: state.selectedPlotIds.length ? state.selectedPlotIds : null,
+      referral_source   : form.referral_source.value || 'Website',
+      notes             : form.notes.value.trim() || null,
+    }
+
+    try {
+      var res = await fetch(API + '/invest-interest', {
+        method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(body)
+      })
+      var data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Error submitting')
+      // Show success
+      document.getElementById('investFormWrap').innerHTML =
+        '<div class="invest-success">' +
+        '<div class="check">✅</div>' +
+        '<h3>Interest Recorded!</h3>' +
+        '<p>' + data.message + '</p>' +
+        '<p style="margin-top:1rem">Our team will call you on <strong>' + body.phone + '</strong> within 24 hours.</p>' +
+        '<a href="https://wa.me/919342849602?text=Hi%20Magizh%20Adavi%2C%20I%20just%20submitted%20my%20investment%20interest%20for%20' + encodeURIComponent(state.selectedScheme.scheme_name) + '" target="_blank" class="btn-primary" style="display:inline-flex;margin-top:1.5rem;gap:.5rem">' +
+        '<svg viewBox="0 0 24 24" fill="currentColor" style="width:18px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.114 1.524 5.845L.057 23.994l6.304-1.644A11.935 11.935 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.894a9.879 9.879 0 01-5.031-1.378l-.36-.214-3.742.975.998-3.633-.234-.374A9.86 9.86 0 012.106 12C2.106 6.58 6.58 2.106 12 2.106S21.894 6.58 21.894 12 17.42 21.894 12 21.894z"/></svg>' +
+        'Chat with Us on WhatsApp</a>' +
+        '</div>'
+    } catch(err) {
+      var errDiv = document.createElement('div')
+      errDiv.className = 'invest-error'
+      errDiv.textContent = err.message || 'Something went wrong. Please try again.'
+      form.insertBefore(errDiv, btn)
+      btn.disabled = false; btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px"><path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg> Send My Interest'
+    }
+  }
+
+  function attachFormListeners() {
+    // nothing extra needed — inline event handlers handle it
+  }
+
+  // ── Load data ───────────────────────────────────────────────────────────
+  async function loadInvest() {
+    try {
+      var res = await fetch(API + '/investment-schemes')
+      if (!res.ok) throw new Error('API error')
+      var data = await res.json()
+      state.schemes = data.schemes || []
+      state.plots   = data.plots   || []
+      if (state.schemes.length) state.selectedScheme = state.schemes[0]
+      renderSchemes()
+    } catch(err) {
+      document.getElementById('investContent').innerHTML =
+        '<p style="text-align:center;color:#9ca3af;padding:2rem">Unable to load investment data. Please try again later or contact us on WhatsApp.</p>'
+    }
+  }
+
+  // Load when section scrolls into view (lazy)
+  var investObs = new IntersectionObserver(function(entries) {
+    if (entries[0].isIntersecting) {
+      loadInvest()
+      investObs.disconnect()
+    }
+  }, { threshold: 0.1 })
+  var investEl = document.getElementById('invest')
+  if (investEl) investObs.observe(investEl)
+})()
+</script>
+
+<!-- ─── INVEST ─────────────────────────────────────────────── -->
+<section id="invest">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Grow Your Wealth</div>
+      <h2>Invest in Our Farm</h2>
+      <p style="color:#6b7280;max-width:580px;margin:.75rem auto 0;font-size:.95rem;line-height:1.7;">
+        Choose plots from our 90-acre organic farm, track your crop as it grows, and receive
+        your principal + profit share at harvest — typically in 6 months.
+      </p>
+      <div class="section-divider" style="margin-top:1rem;"></div>
+    </div>
+
+    <div id="investContent">
+      <div class="invest-loading">Loading investment schemes…</div>
+    </div>
+  </div>
+</section>
+
 <!-- ─── CONTACT ────────────────────────────────────────────── -->
 <section id="contact">
   <div class="container">
@@ -1640,6 +1980,7 @@
     <li><a href="#gallery">Gallery</a></li>
     <li><a href="#products">Products</a></li>
     <li><a href="harvest.html" style="color:#52b788; font-weight:700;">🛒 Today's Harvest</a></li>
+    <li><a href="#invest" style="color:#f4a261; font-weight:700;">🌱 Invest</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <p>Copyright &copy; 2026 Magizh Adavi Organic Farm &mdash; All Rights Reserved.</p>
